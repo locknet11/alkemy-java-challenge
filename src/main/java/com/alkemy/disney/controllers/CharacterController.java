@@ -12,7 +12,7 @@ import com.alkemy.disney.entities.Character;
 import com.alkemy.disney.services.CharacterService;
 
 @RestController
-@RequestMapping("/charactersd/")
+@RequestMapping("/characters")
 public class CharacterController {
 	
 	@Autowired

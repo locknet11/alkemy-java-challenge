@@ -32,11 +32,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
 	@Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		System.out.println(request.getServletPath());
         return (new AntPathMatcher().match("/auth/**", request.getServletPath())
         		|| new AntPathMatcher().match("/", request.getServletPath())
         		|| new AntPathMatcher().match("/api/docs", request.getServletPath())
-        		);
+        		|| new AntPathMatcher().match("/swagger-ui.html", request.getServletPath())
+        		|| new AntPathMatcher().match("/webjars/**", request.getServletPath()));
     }
 
 	@Override
@@ -58,12 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 					auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(auth);
-				}else{
-					return;
 				}
 				
-		}else {
-			return;
 		}
 		
 		filterChain.doFilter(request, response);
