@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.alkemy.disney.exceptions.ServiceException;
 import com.alkemy.disney.models.AuthRequest;
 import com.alkemy.disney.models.AuthResponse;
@@ -21,7 +22,7 @@ import com.alkemy.disney.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/auth/")
-public class Auth {
+public class AuthController {
 	
 	@Autowired
 	private UserService userService;
@@ -40,6 +41,7 @@ public class Auth {
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> signup(@RequestBody AuthRequest request){
+		
 		try {
 			userService.signup(request.getEmail(), request.getPassword());
 			return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -50,6 +52,7 @@ public class Auth {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticate(@RequestBody AuthRequest request){
+		
 		try {
 			
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());

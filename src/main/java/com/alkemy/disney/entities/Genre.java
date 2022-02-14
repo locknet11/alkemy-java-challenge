@@ -16,23 +16,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "characters")
-public class Character {
+@Table(name = "genres")
+public class Genre {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
-	
-	private String name;
-	
-	private String img;
-	
-	private Integer age;
-	
-	private Double weight;
-	
-	private String story;
-	
-	 @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	 private List<Movie> movies = new ArrayList<>();
+		@Id
+	    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	    private Long id;
+	    private String name;
+	    private String image;
+
+	    @ManyToMany(mappedBy = "genres",fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	    private List<Movie> movies = new ArrayList<>();
+
 }

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.alkemy.disney.services.UserService;
 
@@ -24,6 +25,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Lazy
 	private UserService userService;
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtFilter;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -37,11 +41,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.cors().disable()
 		.authorizeRequests()
-		.antMatchers("/auth/**", "/")
+		.antMatchers("/auth/login", "/", "/api/docs", "/auth/register")
 		.permitAll()
 		.anyRequest().authenticated()
-		.and()
+		.and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		
 	}
 	
 	@Bean

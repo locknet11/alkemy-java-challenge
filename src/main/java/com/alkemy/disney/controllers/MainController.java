@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class Main {
+public class MainController {
 	
 	@GetMapping
 	public ResponseEntity<?> welcome(){
@@ -18,5 +18,4 @@ public class Main {
 		response.put("help", "To check API documentation go to http://localhost:8080/api/docs");
 		return ResponseEntity.ok(response);
 	}
-
 }
