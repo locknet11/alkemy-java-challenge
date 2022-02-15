@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -23,7 +25,7 @@ import lombok.Data;
 public class Movie {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	private String title;
@@ -34,11 +36,12 @@ public class Movie {
 	
 	private Integer rate;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "movie_chars",joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "char_id"))
+	@JsonIgnore
+	@ManyToMany(mappedBy = "movies", targetEntity = Character.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Character> characters = new ArrayList<>();
+
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.ALL, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinTable(name = "movie_genres",joinColumns = @JoinColumn(name = "movie_id"),inverseJoinColumns = @JoinColumn(name = "genre_id"))
 	private List<Genre> genres = new ArrayList<>();
 

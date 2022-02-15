@@ -15,7 +15,7 @@ public class MainController {
 	@GetMapping
 	public ResponseEntity<?> welcome(){
 		Map<String, String> response = new HashMap<>();
-		response.put("help", "To check API documentation go to http://localhost:8080/api/docs");
+		response.put("help", "To check API documentation go to http://localhost:8080/swagger-ui.html");
 		return ResponseEntity.ok(response);
 	}
 }

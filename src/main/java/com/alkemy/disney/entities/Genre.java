@@ -20,10 +20,10 @@ import lombok.Data;
 public class Genre {
 	
 		@Id
-	    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    private String name;
-	    private String image;
+	    private String img;
 
 	    @ManyToMany(mappedBy = "genres",fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	    private List<Movie> movies = new ArrayList<>();
