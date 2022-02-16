@@ -71,6 +71,33 @@ public class CharacterService implements CharacterInterface{
 			throw new ServiceException("This character doesn't exist.");
 		}
 	}
+
+	@Override
+	public CharacterDTO update(Integer id, CharacterDTO characterDto) throws ServiceException {
+		Optional<Character> thisChar = charRepository.findById(id);
+		if(thisChar.isPresent()) {
+			Character toUpdate = thisChar.get();
+			toUpdate = dtoToEntity(characterDto);
+			toUpdate.setId(id);
+			charRepository.save(toUpdate);
+			return getById(id);
+		}else {
+			throw new ServiceException("Character not found");
+		}
+	}
+
+	@Override
+	public void delete(Integer id) throws ServiceException {
+		Optional<Character> thisChar = charRepository.findById(id);
+		if(thisChar.isPresent()) {
+			charRepository.delete(thisChar.get());
+		}else {
+			throw new ServiceException("Character not found");
+		}
+		
+	}
+	
+	
 	
 	
 

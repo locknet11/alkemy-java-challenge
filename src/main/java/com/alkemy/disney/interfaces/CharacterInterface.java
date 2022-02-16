@@ -13,5 +13,7 @@ public interface CharacterInterface {
 	public List<CharacterList> entityToList(List<Character> characters);
 	public List<CharacterList> getAll();
 	public CharacterDTO getById(Integer id) throws ServiceException;
+	public CharacterDTO update(Integer id, CharacterDTO characterDto) throws ServiceException;
+	public void delete(Integer id ) throws ServiceException;
 
 }
