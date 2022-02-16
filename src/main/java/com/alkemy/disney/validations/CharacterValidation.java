@@ -10,6 +10,10 @@ public class CharacterValidation {
 	
 	public void validateCreation(CharacterDTO character) throws ServiceException {
 		
+		if(character.getId() != null) {
+			throw new ServiceException("Id shouldn't be provided");
+		}
+		
 		if(character.getName() == null || character.getName().isEmpty()) {
 			throw new ServiceException("Name cannot be null or empty");
 		}
