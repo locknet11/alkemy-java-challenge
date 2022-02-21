@@ -75,4 +75,29 @@ public class MovieService implements MovieInterface {
 		}
 	}
 
+	@Override
+	public void delete(Integer id) throws ServiceException {
+		Optional<Movie> thisMovie = movieRepository.findById(id);
+		if(thisMovie.isPresent()) {
+			movieRepository.delete(thisMovie.get());
+		}else {
+			throw new ServiceException("Movie not found");
+		}
+		
+	}
+
+	@Override
+	public MovieDTO update(Integer id, MovieDTO movieDTO) throws ServiceException {
+		Optional<Movie> thisMovie = movieRepository.findById(id);
+		if(thisMovie.isPresent()) {
+			Movie toUpdate = thisMovie.get();
+			toUpdate = dtoToEntity(movieDTO);
+			toUpdate.setId(id);
+			movieRepository.save(toUpdate);
+			return getById(id);
+		}else {
+			throw new ServiceException("Movie not found");
+		}
+	}
+
 }

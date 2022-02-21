@@ -13,4 +13,6 @@ public interface MovieInterface {
 	public List<MovieList> getAll();
 	public void createNew(MovieDTO movieDto) throws ServiceException;
 	public MovieDTO getById(Integer id) throws ServiceException;
+	public void delete(Integer id) throws ServiceException;
+	public MovieDTO update(Integer id, MovieDTO movieDTO) throws ServiceException;
 }
