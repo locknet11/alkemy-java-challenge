@@ -57,8 +57,25 @@ public class CharacterService implements CharacterInterface{
 	}
 	
 	@Override
-	public List<CharacterList> getAll(){
-		return entityToList(charRepository.findAll());
+	public List<CharacterList> getAll(String name, Integer age, Integer idMovie){
+		
+		if(name == null && age == null && idMovie == null) {
+			return entityToList(charRepository.findAll());
+		}
+		
+		if(name != null) {
+			return entityToList(charRepository.findByName(name));
+		}
+		
+		if(age != null) {
+			return entityToList(charRepository.findByAge(age));
+		}
+		
+		if(idMovie != null) {
+			return entityToList(charRepository.findByMovieId(idMovie));
+		}
+		return java.util.Collections.emptyList();
+		
 	}
 
 	@Override

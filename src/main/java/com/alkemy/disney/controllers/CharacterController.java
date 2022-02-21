@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alkemy.disney.exceptions.ExceptionHandler;
@@ -28,8 +29,13 @@ public class CharacterController{
 	private CharacterService charService;
 	
 	@GetMapping
-	public ResponseEntity<List<CharacterList>> getAllCharacters(){
-		return ResponseEntity.ok(charService.getAll());
+	public ResponseEntity<List<CharacterList>> getAllCharacters(
+			@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "age", required = false) Integer age,
+			@RequestParam(name = "movies", required = false) Integer idMovie){
+		
+		
+		return ResponseEntity.ok(charService.getAll(name, age, idMovie));
 	}
 	
 	@PostMapping
@@ -51,6 +57,7 @@ public class CharacterController{
 			return ExceptionHandler.throwError(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
+	
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody CharacterDTO characterDto) {
