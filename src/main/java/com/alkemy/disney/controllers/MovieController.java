@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alkemy.disney.exceptions.ExceptionHandler;
 import com.alkemy.disney.exceptions.ServiceException;
@@ -27,8 +28,11 @@ public class MovieController {
 	private MovieService movieService;
 	
 	@GetMapping
-	public List<MovieList> getAll(){
-		return movieService.getAll();
+	public List<MovieList> getAll(
+			@RequestParam(name = "title", required = false) String title,
+			@RequestParam(name = "genreId", required = false) Integer genreId,
+			@RequestParam(name = "order", required = false) String order){
+		return movieService.getAll(title, genreId, order);
 	}
 	
 	@PostMapping

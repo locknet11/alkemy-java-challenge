@@ -10,7 +10,7 @@ import com.alkemy.disney.models.MovieList;
 public interface MovieInterface {
 
 	public List<MovieList> entityToList(List<Movie> movies);
-	public List<MovieList> getAll();
+	public List<MovieList> getAll(String title, Integer genreId, String order);
 	public void createNew(MovieDTO movieDto) throws ServiceException;
 	public MovieDTO getById(Integer id) throws ServiceException;
 	public void delete(Integer id) throws ServiceException;

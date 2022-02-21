@@ -3,6 +3,7 @@ package com.alkemy.disney.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.alkemy.disney.entities.User;
 import com.alkemy.disney.exceptions.ServiceException;
 import com.alkemy.disney.interfaces.UserInterface;
@@ -31,6 +33,9 @@ public class UserService implements UserInterface, UserDetailsService{
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private MailService mailService;
+	
 	private UserDTO entityToDto(User user) {
 		return modelMapper.map(user, UserDTO.class);
 	}
@@ -48,6 +53,7 @@ public class UserService implements UserInterface, UserDetailsService{
 		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		user.setAccountCreation(LocalDateTime.now());
 		userRepository.save(user);
+		mailService.sendWelcomeEmail(email);
 	}
 
 	@Override

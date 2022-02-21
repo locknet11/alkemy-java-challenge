@@ -1,6 +1,7 @@
 package com.alkemy.disney.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +54,23 @@ public class MovieService implements MovieInterface {
 	}
 	
 	@Override
-	public List<MovieList> getAll(){
-		return entityToList(movieRepository.findAll());
+	public List<MovieList> getAll(String title, Integer genreId, String order){
+		if(title == null && genreId == null && order == null) {
+			return entityToList(movieRepository.findAll());
+		}
+		if(title != null) {
+			return entityToList(movieRepository.findByTitle(title));
+		}
+		if(genreId != null) {
+			return entityToList(movieRepository.findByGenre(genreId));
+		}
+		if(order != null && order.equalsIgnoreCase("ASC")) {
+			return entityToList(movieRepository.getAllAndOrderASC());
+		}
+		if(order != null && order.equalsIgnoreCase("DESC")) {
+			return entityToList(movieRepository.getAllAndOrderDESC());
+		}
+		return Collections.emptyList();
 	}
 
 
