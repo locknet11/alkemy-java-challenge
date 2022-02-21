@@ -46,6 +46,7 @@ public class MovieController {
 			return ResponseEntity.ok(movie);
 		}catch (ServiceException e) {
 			return ExceptionHandler.throwError(HttpStatus.NOT_FOUND, e.getMessage());
+			
 		}
 	}
 
