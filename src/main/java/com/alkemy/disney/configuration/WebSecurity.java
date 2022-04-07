@@ -19,8 +19,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import com.alkemy.disney.services.UserService;
+import com.alkemy.disney.ws.ServerWebSocketHandler;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -34,7 +39,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebSecurity
 @EnableSwagger2
 @EnableAsync
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+@EnableWebSocket
+public class WebSecurity extends WebSecurityConfigurerAdapter implements WebSocketConfigurer {
 	
 	@Qualifier("userService")
 	@Autowired
@@ -56,7 +62,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.cors().disable()
 		.authorizeRequests()
-		.antMatchers("/auth/login", "/auth/register", "/", "/webjars/**", "/swagger-resources/**", "/swagger-ui.html", "/v2/**")
+		.antMatchers("/websocket", "/auth/login", "/auth/register", "/", "/webjars/**", "/swagger-resources/**", "/swagger-ui.html", "/v2/**")
 		.permitAll()
 		.anyRequest().authenticated()
 		.and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -101,5 +107,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				Collections.emptyList()
 				);
 	}
+	
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(webSocketHandler(), "/websocket");
+    }
+    
+    @Bean
+    public WebSocketHandler webSocketHandler() {
+        return new ServerWebSocketHandler();
+    }
 		
 }  
