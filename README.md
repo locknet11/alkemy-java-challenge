@@ -5,3 +5,4 @@ El mismo consiste en una API REST securizada basada en personajes de Disney.
 ## Swagger Docs
 http://localhost:8080/swagger-ui.html
 ### Developer:  Santiago Pulido
+#### 2022-04-08
